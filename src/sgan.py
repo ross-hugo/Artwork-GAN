@@ -14,7 +14,7 @@ class SGAN():
     def train(self, epochs, batch_size, X=None, y=None):
         #load real images
         if X != None and y != None:
-            raise Exception("TODO figure out how to split these")
+            X_train, Y_train = X, y
         elif X == None and y == None:
             (X_train,_), (Y_train,_) = mnist.load_data() #we're not gonna use Y_train but it bothers me to leave it out
         else:
@@ -25,12 +25,15 @@ class SGAN():
         # X_train = (X_train.astype(np.float32)-127.5) /127.5
         # X_train = X_train.astype(np.float32)/255
         #add dimension, if input to gen and discr has shape 28x28x1, then 3 dimensions
-        X_train = np.expand_dims(X_train, axis=3)
+        #X_train = np.expand_dims(X_train, axis=3)
+        
         half_size = int(batch_size/2)
 
         for epoch in tqdm(range(epochs)):
-            idx = np.random.randint(0, X_train.shape[0], half_size)
-            imgs = X_train[idx]
+            imgs = [x for x, y in X_train.take(1)]
+            
+            #idx = np.random.randint(0, X_train.shape[0], half_size)
+            #imgs = X_train[idx]
 
             #half batch number of vectors, each of size 100
             noise = np.random.normal(0,1,(half_size, 100)) #for generator
