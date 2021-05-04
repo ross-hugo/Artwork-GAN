@@ -1,6 +1,7 @@
 from tensorflow.keras.datasets import mnist #for testing on some data
 
 import numpy as np
+from tqdm.notebook import tqdm
 
 from src.discriminator import Discriminator
 from src.generator import Generator
@@ -27,7 +28,7 @@ class SGAN():
         X_train = np.expand_dims(X_train, axis=3)
         half_size = int(batch_size/2)
 
-        for epoch in range(epochs):
+        for epoch in tqdm(range(epochs)):
             idx = np.random.randint(0, X_train.shape[0], half_size)
             imgs = X_train[idx]
 
@@ -40,9 +41,9 @@ class SGAN():
             #Training Discriminator#
             ########################
             #train discriminator on real images
-            d_loss_real = self.discriminator.train_on_batch(imgs, np.ones((half_batch, 1)))
+            d_loss_real = self.discriminator.model.train_on_batch(imgs, np.ones((half_size, 1)))
             #train discriminator on fake images
-            d_loss_fake = self.discriminator.train_on_batch(gen_imgs, np.zeros((half_size,1)))
+            d_loss_fake = self.discriminator.model.train_on_batch(gen_imgs, np.zeros((half_size,1)))
             #averaged loss
             d_loss = 0.5 * np.add(d_loss_real, d_loss_fake) #add and divide by 2
 
@@ -55,8 +56,9 @@ class SGAN():
             #telling discriminator the image is real
             valid_y = np.array([1] * batch_size)
 
-            g_loss = combined.train_on_batch(noise, valid_y)
+            g_loss = self.generator.model.train_on_batch(noise, valid_y)
 
-    def test():
-        pass
+    def compile(self):
+        self.generator.compile()
+        self.discriminator.compile()
 

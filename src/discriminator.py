@@ -94,6 +94,15 @@ class Discriminator():
         self.model = model
         return self.model
 
+    def compile(self):
+        optimizer = Adam(0.0002, 0.5)
+        self.model.compile(
+            loss=['binary_crossentropy', 'categorical_crossentropy'],
+            loss_weights=[0.5, 0.5],
+            optimizer=optimizer,
+            metrics=['accuracy']
+        )
+
     def train(self, epochs, batch_size=128, save_interval=500):
         # #load real images
         (X_train,_), (Y_train,_) = mnist.load_data() #we're not gonna use Y_train but it bothers me to leave it out

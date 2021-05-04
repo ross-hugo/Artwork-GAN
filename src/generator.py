@@ -42,3 +42,7 @@ class Generator():
         img = model(noise)
         self.model = Model(noise, img)
         return Model(noise, img)
+
+    def compile(self):
+        optimizer = Adam(0.0002, 0.5)
+        self.model.compile(loss=['binary_crossentropy'], optimizer=optimizer)
