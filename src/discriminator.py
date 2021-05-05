@@ -67,11 +67,11 @@ class Discriminator():
             print("\n\n===== Discriminator Model Summary ======\n") 
             model.summary()
 
-        # img = Input(shape=self.img_shape)
+        img = Input(shape=self.img_shape)
 
-        # features = model(img)
-        # valid = Dense(1, activation="sigmoid")(features)
-        # label = Dense(self.num_classes+1, activation="softmax")(features)
+        features = model(img)
+        valid = Dense(1, activation="sigmoid")(features)
+        label = Dense(self.num_classes+1, activation="softmax")(features)
 
         #valid = model(img)
         # return Model(img, [valid, label]) #return img and validity
@@ -83,7 +83,8 @@ class Discriminator():
         opt = Adam(learning_rate=lr, beta_1= betas[0], beta_2=betas[1])
         model.compile(loss="binary_crossentropy", optimizer=opt)
 
-        return model
+        return Model(img, valid)
+        #return model
 
     def compile(self):
         optimizer = Adam(0.0002, 0.5)
