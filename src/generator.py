@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
-import keras
 from tqdm import tqdm
+import sys
+print(sys.version)
 from tensorflow.keras.layers import Reshape, BatchNormalization, UpSampling2D, Activation, Conv2D, Conv2DTranspose, Dropout, Input, Flatten, LeakyReLU, Dense, LeakyReLU
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.optimizers import Adam

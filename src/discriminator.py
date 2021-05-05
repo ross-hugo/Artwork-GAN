@@ -78,12 +78,22 @@ class Discriminator():
         #return Model(img, valid)
 
         # from https://github.com/vandit15/Self-Supervised-Gans-Pytorch/blob/01408fcce3e6cf4795d90c0f9d27e6906d5b59f3/main.py
+
+        
+
         lr = 1e-4
         betas = (.9, .99)
         opt = Adam(learning_rate=lr, beta_1= betas[0], beta_2=betas[1])
         model.compile(loss="binary_crossentropy", optimizer=opt)
 
-        return model
+        img = Input(shape=(128, 128, 3))
+        features = model(img)
+        valid = Dense(1, activation="sigmoid")(features)
+        label = Dense(5, activation="softmax")(features)
+
+        return Model(img, [valid, label])
+
+        #return model
 
     def compile(self):
         optimizer = Adam(0.0002, 0.5)
