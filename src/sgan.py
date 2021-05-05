@@ -119,20 +119,20 @@ class SGAN():
 
             g_loss = self.combined.train_on_batch(noise, valid_y)
 
-            # if epoch % display_iter == 0:
-            #     self.display_generated_images()
+            if epoch % display_iter == 0:
+                self.display_generated_images(epoch)
 
-    def display_generated_images(self):
+    def display_generated_images(self, uid):
         noise = np.random.normal(0,1,(1, 100)) 
         gen_imgs = self.generator.predict(noise)
         gen_imgs = 127.5 * (gen_imgs + 1)
 
+        fig, axs = plt.subplots(1, 1)
         for i in range(1):
-            ax = plt.subplot(1, 2, i+1)
-            plt.imshow(gen_imgs[i].astype('uint8'))
-            plt.show()
+            axs.imshow(gen_imgs[i].astype('uint8'))
+        fig.savefig(f"model_images/ssgan_{uid}.png")
+        plt.close()
 
-    def compile(self):
-        # self.generator.compile()
-        # self.discriminator.compile()
-        pass
+    # def save_model(self):
+
+    

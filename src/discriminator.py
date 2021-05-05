@@ -67,24 +67,24 @@ class Discriminator():
             print("\n\n===== Discriminator Model Summary ======\n") 
             model.summary()
 
-        img = Input(shape=self.img_shape)
+        img = Input(shape=(128, 128, 3))
 
-        features = model(img)
-        valid = Dense(1, activation="sigmoid")(features)
-        label = Dense(self.num_classes+1, activation="softmax")(features)
+        # features = model(img)
+        # valid = Dense(1, activation="sigmoid")(features)
+        # label = Dense(self.num_classes+1, activation="softmax")(features)
 
-        #valid = model(img)
-        # return Model(img, [valid, label]) #return img and validity
-        #return Model(img, valid)
+        # #valid = model(img)
+        # # return Model(img, [valid, label]) #return img and validity
+        # #return Model(img, valid)
 
-        # from https://github.com/vandit15/Self-Supervised-Gans-Pytorch/blob/01408fcce3e6cf4795d90c0f9d27e6906d5b59f3/main.py
+        # # from https://github.com/vandit15/Self-Supervised-Gans-Pytorch/blob/01408fcce3e6cf4795d90c0f9d27e6906d5b59f3/main.py
 
         
 
-        lr = 1e-4
-        betas = (.9, .99)
-        opt = Adam(learning_rate=lr, beta_1= betas[0], beta_2=betas[1])
-        model.compile(loss="binary_crossentropy", optimizer=opt)
+        # lr = 1e-4
+        # betas = (.9, .99)
+        # opt = Adam(learning_rate=lr, beta_1= betas[0], beta_2=betas[1])
+        # model.compile(loss="binary_crossentropy", optimizer=opt)
 
         img = Input(shape=(128, 128, 3))
         features = model(img)
