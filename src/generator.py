@@ -7,17 +7,13 @@ from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.optimizers import Adam
 
 class Generator():
-    def __init__(self, v, latent_dim=100):
-        self.latent_dim = latent_dim
-        self.sn  = None
-        self.img_shape = (128, 128, 1)
-        self.model = None
-        self.define_generator(verb=v)
+    def __init__(self):
+        pass
 
-    def define_generator(self, verb):
+    def define_generator(self, verb, sample_shape, latent_dim=100):
         model = Sequential()
 
-        model.add(Dense(128 * 32 * 32, activation="relu", input_dim=self.latent_dim))
+        model.add(Dense(128 * 32 * 32, activation="relu", input_dim=latent_dim))
         model.add(Reshape((32, 32, 128)))
         model.add(BatchNormalization(momentum=0.8))
 
@@ -31,18 +27,13 @@ class Generator():
         model.add(Activation("relu"))
         model.add(BatchNormalization(momentum=0.8))
 
-        model.add(Conv2D(1, kernel_size=3, padding="same"))
+        model.add(Conv2D(sample_shape[-1], kernel_size=3, padding="same"))
         model.add(Activation("tanh"))
 
         if verb:
             print("\n\n===== Generator Model Summary ========\n")
             model.summary()
-        noise = Input(shape=(self.latent_dim,))
+        noise = Input(shape=(latent_dim,))
 
         img = model(noise)
-        self.model = Model(noise, img)
         return Model(noise, img)
-
-    def compile(self):
-        optimizer = Adam(0.0002, 0.5)
-        self.model.compile(loss=['binary_crossentropy'], optimizer=optimizer)

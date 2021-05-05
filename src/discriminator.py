@@ -19,19 +19,11 @@ from scipy import ndimage
 #I'm assuming that we will have a GAN class and inside that class we'll have the discriminator and generator functions
 
 class Discriminator():
-
-    def __init__(self, v):
-        self.resnet = None
-        self.lrelu = None
-        self.sn  = None
-        # self.input_shape = (28, 28, 1)
-        self.img_shape = (128, 128, 1)
-        self.model = None
-        self.define_discriminator(verb=v)
+    def __init__(self):
+        pass
 
   #discriminator outputs likelihood of image being real
-  # def discriminator(self, resnet):
-    def define_discriminator(self, verb):
+    def define_discriminator(self, verb, sample_shape):
         #as per paper batch normalization is omitted in the discriminator
         #leakyRelu / conv / leakyrelu / conv
         #4 resblocks --> relu, global sum pooling, dense
@@ -40,7 +32,7 @@ class Discriminator():
 
         #block1
         # model.add(LeakyReLU(alpha=0.2))
-        model.add(Conv2D(32, kernel_size=3, strides=2, input_shape=self.img_shape, padding="same"))
+        model.add(Conv2D(32, kernel_size=3, strides=2, input_shape=sample_shape, padding="same"))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Conv2D(32, kernel_size=3, strides=2, padding="same"))
 
@@ -91,8 +83,7 @@ class Discriminator():
         opt = Adam(learning_rate=lr, beta_1= betas[0], beta_2=betas[1])
         model.compile(loss="binary_crossentropy", optimizer=opt)
 
-        self.model = model
-        return self.model
+        return model
 
     def compile(self):
         optimizer = Adam(0.0002, 0.5)
