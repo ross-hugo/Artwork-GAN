@@ -67,11 +67,11 @@ class Discriminator():
             print("\n\n===== Discriminator Model Summary ======\n") 
             model.summary()
 
-        # img = Input(shape=self.img_shape)
+        img = Input(shape=self.img_shape)
 
-        # features = model(img)
-        # valid = Dense(1, activation="sigmoid")(features)
-        # label = Dense(self.num_classes+1, activation="softmax")(features)
+        features = model(img)
+        valid = Dense(1, activation="sigmoid")(features)
+        label = Dense(self.num_classes+1, activation="softmax")(features)
 
         #valid = model(img)
         # return Model(img, [valid, label]) #return img and validity
