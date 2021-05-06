@@ -1,4 +1,6 @@
 model_images/
+trained_models/
+cudnn64_7.dll
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

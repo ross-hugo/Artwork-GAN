@@ -3,6 +3,7 @@ from tensorflow.keras.datasets import mnist #for testing on some data
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
+from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import to_categorical
 
 import numpy as np
@@ -133,6 +134,15 @@ class SGAN():
         fig.savefig(f"model_images/ssgan_{uid}.png")
         plt.close()
 
-    # def save_model(self):
+    def save(self, dir):
+        self.generator.save(dir + '/generator.h5')
+        self.discriminator.save(dir + '/discriminator.h5')
+        self.combined.save(dir + '/combined.h5')
 
+    # This won't work unless you have the right version of h5py
+    # pip install 'h5py==2.10.0' --force-reinstall
+    def load(self, dir):
+        self.generator = load_model(dir + '/generator.h5')
+        self.discriminator = load_model(dir + '/discriminator.h5')
+        self.combined = load_model(dir + '/combined.h5')
     

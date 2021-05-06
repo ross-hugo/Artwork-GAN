@@ -10,6 +10,7 @@ from src.sgan import SGAN
 BATCH_SIZE = 128
 
 gan = SGAN(verbosity=False)
+gan.load("trained_models")
 
 from src.utils import image_dataset_from_directory
 dir = "images/"
@@ -29,4 +30,5 @@ val_ds = image_dataset_from_directory(dir,
   ,image_size=(128, 128), color_mode= "rgb",
     batch_size=BATCH_SIZE//2)
 
-gan.train(X=train_ds, y=val_ds, epochs=1000, batch_size=BATCH_SIZE)
+gan.train(X=train_ds, y=val_ds, epochs=10000, batch_size=BATCH_SIZE)
+gan.save("trained_models")
