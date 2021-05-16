@@ -1,5 +1,7 @@
 cudnn64_7.dll
 
+.vscode
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
